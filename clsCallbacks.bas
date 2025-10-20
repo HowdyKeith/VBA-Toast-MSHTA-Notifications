@@ -26,9 +26,9 @@ End Sub
 
 '----------------------------
 ' Register a callback
-Public Sub RegisterCallback(ByVal name As String, ByVal macroName As String)
-    If Len(name) > 0 And Len(macroName) > 0 Then
-        Callbacks(name) = macroName
+Public Sub RegisterCallback(ByVal name As String, ByVal MacroName As String)
+    If Len(name) > 0 And Len(MacroName) > 0 Then
+        Callbacks(name) = MacroName
     End If
 End Sub
 
@@ -41,7 +41,7 @@ Public Sub ExecuteCallback(ByVal name As String)
         On Error Resume Next
         Application.Run macro
         If Err.Number <> 0 Then
-            MsgBox "Error executing callback '" & name & "': " & Err.description, vbExclamation, "Callback Error"
+            MsgBox "Error executing callback '" & name & "': " & Err.Description, vbExclamation, "Callback Error"
         End If
         On Error GoTo 0
     Else

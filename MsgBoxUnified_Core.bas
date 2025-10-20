@@ -126,7 +126,7 @@ Public Function Notify(ByVal Title As String, _
     Exit Function
     
 ErrorHandler:
-    LogError "Notify failed: " & Err.description
+    LogError "Notify failed: " & Err.Description
     Notify = False
 End Function
 
@@ -176,7 +176,7 @@ Public Function Progress(ByVal Title As String, _
     Exit Function
     
 ErrorHandler:
-    LogError "Progress failed: " & Err.description
+    LogError "Progress failed: " & Err.Description
     Progress = ""
 End Function
 
@@ -238,7 +238,7 @@ Public Function StartListener() As Boolean
     Exit Function
     
 ErrorHandler:
-    LogError "StartListener error: " & Err.description
+    LogError "StartListener error: " & Err.Description
     StartListener = False
 End Function
 
@@ -313,7 +313,7 @@ Private Function DeliverViaPipe(ByRef toast As ToastData, _
     Exit Function
     
 ErrorHandler:
-    LogError "DeliverViaPipe error: " & Err.description
+    LogError "DeliverViaPipe error: " & Err.Description
     DeliverViaPipe = False
 End Function
 
@@ -340,7 +340,7 @@ Private Function DeliverViaMSHTA(ByRef toast As ToastData) As Boolean
     Exit Function
     
 ErrorHandler:
-    LogError "DeliverViaMSHTA error: " & Err.description
+    LogError "DeliverViaMSHTA error: " & Err.Description
     DeliverViaMSHTA = False
 End Function
 
@@ -364,7 +364,7 @@ Private Function DeliverViaMSHTAProgress(ByRef toast As ToastData, _
     Exit Function
     
 ErrorHandler:
-    LogError "DeliverViaMSHTAProgress error: " & Err.description
+    LogError "DeliverViaMSHTAProgress error: " & Err.Description
     DeliverViaMSHTAProgress = False
 End Function
 
@@ -550,15 +550,15 @@ Private Function WritePipe(ByVal PipeName As String, ByVal Data As String) As Bo
     WritePipe = False
 End Function
 
-Private Sub WriteTextFile(ByVal filePath As String, ByVal Content As String)
+Private Sub WriteTextFile(ByVal FilePath As String, ByVal Content As String)
     Dim fso As Object, ts As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
-    Set ts = fso.CreateTextFile(filePath, True, True)
+    Set ts = fso.CreateTextFile(FilePath, True, True)
     ts.Write Content
     ts.Close
 End Sub
 
-Private Sub ScheduleCleanup(ByVal filePath As String, ByVal DelaySeconds As Long)
+Private Sub ScheduleCleanup(ByVal FilePath As String, ByVal DelaySeconds As Long)
     ' TODO: Implement async cleanup
     ' For now, files will be cleaned up by explicit CleanupTempFiles call
 End Sub

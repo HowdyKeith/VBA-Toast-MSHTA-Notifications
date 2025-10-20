@@ -15,24 +15,24 @@ Option Explicit
 ' =============================================================
 
 ' --- Export and split a module ---
-Sub ExportAndSplit(moduleName As String)
+Sub ExportAndSplit(ModuleName As String)
     Dim vbComp As Object
-    Dim filePath As String, exportPath As String
+    Dim FilePath As String, exportPath As String
     Dim fileNum As Integer, textData As String
     Dim chunkSize As Long, pos As Long, partNum As Long
     
     On Error GoTo ErrorHandler
     
     ' Locate the module
-    Set vbComp = ThisWorkbook.VBProject.VBComponents(moduleName)
+    Set vbComp = ThisWorkbook.VBProject.VBComponents(ModuleName)
     
     ' Export module to temp file
-    filePath = Environ$("USERPROFILE") & "\Documents\" & moduleName & "_full.bas"
-    vbComp.Export filePath
+    FilePath = Environ$("USERPROFILE") & "\Documents\" & ModuleName & "_full.bas"
+    vbComp.Export FilePath
     
     ' Read module text
     fileNum = FreeFile
-    Open filePath For Input As #fileNum
+    Open FilePath For Input As #fileNum
     textData = Input$(LOF(fileNum), fileNum)
     Close #fileNum
     
@@ -42,7 +42,7 @@ Sub ExportAndSplit(moduleName As String)
     partNum = 1
     Do While pos <= Len(textData)
         exportPath = Environ$("USERPROFILE") & "\Documents\" & _
-                     moduleName & "_Part" & partNum & ".txt"
+                     ModuleName & "_Part" & partNum & ".txt"
         fileNum = FreeFile
         Open exportPath For Output As #fileNum
         Print #fileNum, Mid$(textData, pos, chunkSize)
@@ -53,16 +53,16 @@ Sub ExportAndSplit(moduleName As String)
         partNum = partNum + 1
     Loop
     
-    MsgBox "Done! Exported " & moduleName & " into " & (partNum - 1) & " chunks.", vbInformation
+    MsgBox "Done! Exported " & ModuleName & " into " & (partNum - 1) & " chunks.", vbInformation
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ExportAndSplit: " & Err.description, vbCritical
+    MsgBox "Error in ExportAndSplit: " & Err.Description, vbCritical
     If fileNum > 0 Then Close #fileNum
 End Sub
 
 ' --- Auto re-join module parts ---
-Sub ImportAndJoinAuto(moduleName As String)
+Sub ImportAndJoinAuto(ModuleName As String)
     Dim fso As Object, folder As Object
     Dim joinedPath As String, partPath As String
     Dim fileNum As Integer, outNum As Integer
@@ -74,14 +74,14 @@ Sub ImportAndJoinAuto(moduleName As String)
     Set folder = fso.GetFolder(Environ$("USERPROFILE") & "\Documents")
     
     ' Where to save the joined file
-    joinedPath = folder.path & "\" & moduleName & "_Joined.bas"
+    joinedPath = folder.path & "\" & ModuleName & "_Joined.bas"
     outNum = FreeFile
     Open joinedPath For Output As #outNum
     
     ' Loop until missing file
     partNum = 1
     Do
-        partPath = folder.path & "\" & moduleName & "_Part" & partNum & ".txt"
+        partPath = folder.path & "\" & ModuleName & "_Part" & partNum & ".txt"
         If Dir(partPath) = "" Then Exit Do
         
         fileNum = FreeFile
@@ -99,13 +99,13 @@ Sub ImportAndJoinAuto(moduleName As String)
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ImportAndJoinAuto: " & Err.description, vbCritical
+    MsgBox "Error in ImportAndJoinAuto: " & Err.Description, vbCritical
     If fileNum > 0 Then Close #fileNum
     If outNum > 0 Then Close #outNum
 End Sub
 
 ' --- Diff checker: Compare full vs joined file ---
-Sub CompareModuleFiles(moduleName As String)
+Sub CompareModuleFiles(ModuleName As String)
     Dim folder As String
     Dim fullPath As String, joinedPath As String
     Dim file1 As Integer, file2 As Integer
@@ -115,11 +115,11 @@ Sub CompareModuleFiles(moduleName As String)
     On Error GoTo ErrorHandler
     
     folder = Environ$("USERPROFILE") & "\Documents\"
-    fullPath = folder & moduleName & "_full.bas"
-    joinedPath = folder & moduleName & "_Joined.bas"
+    fullPath = folder & ModuleName & "_full.bas"
+    joinedPath = folder & ModuleName & "_Joined.bas"
     
     If Dir(fullPath) = "" Or Dir(joinedPath) = "" Then
-        MsgBox "Missing _full.bas or _Joined.bas for " & moduleName, vbExclamation
+        MsgBox "Missing _full.bas or _Joined.bas for " & ModuleName, vbExclamation
         Exit Sub
     End If
     
@@ -155,27 +155,27 @@ Sub CompareModuleFiles(moduleName As String)
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in CompareModuleFiles: " & Err.description, vbCritical
+    MsgBox "Error in CompareModuleFiles: " & Err.Description, vbCritical
     If file1 > 0 Then Close #file1
     If file2 > 0 Then Close #file2
 End Sub
 
 ' --- Round-trip test: split ? rejoin ? compare ---
-Sub TestRoundTrip(moduleName As String)
+Sub TestRoundTrip(ModuleName As String)
     Dim fso As Object, folder As String
     Dim fullPath As String, joinedPath As String
     
     On Error GoTo ErrorHandler
     
     folder = Environ$("USERPROFILE") & "\Documents\"
-    fullPath = folder & moduleName & "_full.bas"
-    joinedPath = folder & moduleName & "_Joined.bas"
+    fullPath = folder & ModuleName & "_full.bas"
+    joinedPath = folder & ModuleName & "_Joined.bas"
     
     ' Step 1: Export + Split
-    ExportAndSplit moduleName
+    ExportAndSplit ModuleName
     
     ' Step 2: Rejoin
-    ImportAndJoinAuto moduleName
+    ImportAndJoinAuto ModuleName
     
     ' Step 3: Quick file size comparison
     Set fso = CreateObject("Scripting.FileSystemObject")
@@ -185,11 +185,11 @@ Sub TestRoundTrip(moduleName As String)
     End If
     
     ' Step 4: Run diff check
-    CompareModuleFiles moduleName
+    CompareModuleFiles ModuleName
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in TestRoundTrip: " & Err.description, vbCritical
+    MsgBox "Error in TestRoundTrip: " & Err.Description, vbCritical
 End Sub
 
 ' ==========================================================
@@ -198,7 +198,7 @@ End Sub
 ' Scans a module for Sub/Function/Property blocks and exports chosen one
 ' ==========================================================
 
-Sub ExportProcedureFromModule(moduleName As String)
+Sub ExportProcedureFromModule(ModuleName As String)
     Dim vbComp As Object
     Dim codeMod As Object
     Dim lineCount As Long, lineNum As Long
@@ -211,7 +211,7 @@ Sub ExportProcedureFromModule(moduleName As String)
     On Error GoTo ErrorHandler
     
     ' Get module
-    Set vbComp = ThisWorkbook.VBProject.VBComponents(moduleName)
+    Set vbComp = ThisWorkbook.VBProject.VBComponents(ModuleName)
     Set codeMod = vbComp.codeModule
     
     lineCount = codeMod.CountOfLines
@@ -233,12 +233,12 @@ Sub ExportProcedureFromModule(moduleName As String)
     Loop
     
     If procList.count = 0 Then
-        MsgBox "No procedures found in module " & moduleName, vbExclamation
+        MsgBox "No procedures found in module " & ModuleName, vbExclamation
         Exit Sub
     End If
     
     ' Build a display string
-    msg = "Procedures in " & moduleName & ":" & vbCrLf & vbCrLf
+    msg = "Procedures in " & ModuleName & ":" & vbCrLf & vbCrLf
     For i = 1 To procList.count
         msg = msg & i & ". " & procList(i) & vbCrLf
     Next
@@ -262,18 +262,18 @@ Sub ExportProcedureFromModule(moduleName As String)
     procBody = codeMod.lines(procStart, codeMod.ProcCountLines(procName, vbext_pk_Proc))
     
     ' Export to Documents folder
-    Dim filePath As String, f As Integer
-    filePath = Environ$("USERPROFILE") & "\Documents\" & procName & ".bas"
+    Dim FilePath As String, f As Integer
+    FilePath = Environ$("USERPROFILE") & "\Documents\" & procName & ".bas"
     f = FreeFile
-    Open filePath For Output As #f
+    Open FilePath For Output As #f
     Print #f, procBody
     Close #f
     
-    MsgBox "Exported " & procName & " to:" & vbCrLf & filePath, vbInformation
+    MsgBox "Exported " & procName & " to:" & vbCrLf & FilePath, vbInformation
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ExportProcedureFromModule: " & Err.description, vbCritical
+    MsgBox "Error in ExportProcedureFromModule: " & Err.Description, vbCritical
     If f > 0 Then Close #f
 End Sub
 
@@ -359,7 +359,7 @@ Sub ExportProcedureFromActiveModule()
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ExportProcedureFromActiveModule: " & Err.description, vbCritical
+    MsgBox "Error in ExportProcedureFromActiveModule: " & Err.Description, vbCritical
     If f > 0 Then Close #f
 End Sub
 
@@ -404,7 +404,7 @@ Sub ExportAllModulesAndSplit()
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ExportAllModulesAndSplit: " & Err.description, vbCritical
+    MsgBox "Error in ExportAllModulesAndSplit: " & Err.Description, vbCritical
 End Sub
 
 ' ==========================================================
@@ -433,7 +433,7 @@ Sub ExportAllModules()
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ExportAllModules: " & Err.description, vbCritical
+    MsgBox "Error in ExportAllModules: " & Err.Description, vbCritical
 End Sub
 
 ' ==========================================================
@@ -465,7 +465,7 @@ Sub ImportAllModules()
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in ImportAllModules: " & Err.description, vbCritical
+    MsgBox "Error in ImportAllModules: " & Err.Description, vbCritical
 End Sub
 
 ' ==========================================================
@@ -510,7 +510,7 @@ Sub RestoreAllModules()
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error in RestoreAllModules: " & Err.description, vbCritical
+    MsgBox "Error in RestoreAllModules: " & Err.Description, vbCritical
 End Sub
 
 

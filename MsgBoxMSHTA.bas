@@ -1,8 +1,8 @@
-Attribute VB_Name = "MsgBoxToastAPI"
+Attribute VB_Name = "MsgBoxMSHTA"
 '***************************************************************
-' Module: MsgBoxToastAPI
+' Module: MsgBoxMSHTA
 ' Version: 7.0
-' Purpose: Display Excel/Office Toasts via Native Windows Toast API
+' Purpose: Display Excel/Office Toasts via HTA
 ' Dependencies: clsToastNotification v7.1
 ' Features:
 '   - Queued & stacked toasts
@@ -43,7 +43,7 @@ Private Sub DisplayNextToast()
     Dim currentToast As clsToastNotification
     Set currentToast = SharedQueue(1)
     
-    currentToast.Show "ps" ' Use native API via PowerShell as bridge
+    currentToast.Show "hta"
     
     Dim waitSeconds As Long
     waitSeconds = currentToast.Duration

@@ -132,13 +132,13 @@ End Function
 
 '----------------------------
 ' Escape HTML
-Private Function EscapeHtml(ByVal Text As String) As String
-    Text = Replace(Text, "&", "&amp;")
-    Text = Replace(Text, "<", "&lt;")
-    Text = Replace(Text, ">", "&gt;")
-    Text = Replace(Text, """", "&quot;")
-    Text = Replace(Text, "'", "&#39;")
-    EscapeHtml = Text
+Private Function EscapeHtml(ByVal text As String) As String
+    text = Replace(text, "&", "&amp;")
+    text = Replace(text, "<", "&lt;")
+    text = Replace(text, ">", "&gt;")
+    text = Replace(text, """", "&quot;")
+    text = Replace(text, "'", "&#39;")
+    EscapeHtml = text
 End Function
 
 '----------------------------

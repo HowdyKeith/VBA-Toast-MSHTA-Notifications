@@ -135,12 +135,12 @@ Public Sub DebugToastStatus()
 End Sub
 
 ' === Internal low-level pipe write ===
-Public Function WritePipeMessage(ByVal PipeName As String, ByVal Text As String) As Boolean
+Public Function WritePipeMessage(ByVal PipeName As String, ByVal text As String) As Boolean
     On Error Resume Next
     Dim hPipe As LongPtr
     Dim written As Long
     Dim bytes() As Byte
-    bytes = StrConv(Text, vbFromUnicode)
+    bytes = StrConv(text, vbFromUnicode)
     
     hPipe = CreateFile(StrPtr(PipeName), GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0)
     If hPipe <> INVALID_HANDLE_VALUE Then
@@ -155,9 +155,9 @@ End Function
 ' ============================================================
 ' CONSOLE HELPERS (for PowerShell debug)
 ' ============================================================
-Public Sub ConsoleLog(ByVal Text As String)
+Public Sub ConsoleLog(ByVal text As String)
     On Error Resume Next
-    Debug.Print "[MsgBoxUI] " & Text
+    Debug.Print "[MsgBoxUI] " & text
 End Sub
 
 

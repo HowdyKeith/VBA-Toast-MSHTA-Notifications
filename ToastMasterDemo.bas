@@ -35,7 +35,7 @@ Public Sub MasterToastTestMenu()
         
         If choice = "" Or choice = "0" Then Exit Sub
         
-        Select Case Val(choice)
+        Select Case val(choice)
             Case 1: QuickInfoTest
             Case 2: QuickWarningTest
             Case 3: QuickErrorTest
@@ -298,10 +298,10 @@ Public Sub DiagnoseToastSystem()
     report = "===== TOAST SYSTEM DIAGNOSTIC REPORT =====" & vbCrLf & vbCrLf
     
     ' Check temp directory
-    Dim TempPath As String
-    TempPath = MsgBoxUniversal.GetTempPath()
-    report = report & "Temp Directory: " & TempPath & vbCrLf
-    report = report & "Temp Dir Exists: " & CBool(Len(Dir(TempPath, vbDirectory)) > 0) & vbCrLf & vbCrLf
+    Dim tempPath As String
+    tempPath = MsgBoxUniversal.GetTempPath()
+    report = report & "Temp Directory: " & tempPath & vbCrLf
+    report = report & "Temp Dir Exists: " & CBool(Len(Dir(tempPath, vbDirectory)) > 0) & vbCrLf & vbCrLf
     
     ' Check PowerShell
     report = report & "PS Listener Running: " & MsgBoxUniversal.PowershellListenerRunning() & vbCrLf
@@ -311,7 +311,7 @@ Public Sub DiagnoseToastSystem()
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     Dim TempFolder As Object
-    Set TempFolder = fso.GetFolder(TempPath)
+    Set TempFolder = fso.GetFolder(tempPath)
     
     Dim toastFileCount As Long
     Dim f As Object
@@ -338,8 +338,8 @@ End Sub
 Public Sub CleanupToastTempFiles()
     On Error Resume Next
     
-    Dim TempPath As String
-    TempPath = MsgBoxUniversal.GetTempPath()
+    Dim tempPath As String
+    tempPath = MsgBoxUniversal.GetTempPath()
     
     Dim fso As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
@@ -349,7 +349,7 @@ Public Sub CleanupToastTempFiles()
     
     ' Delete toast HTA files
     Dim f As Object
-    For Each f In fso.GetFolder(TempPath).files
+    For Each f In fso.GetFolder(tempPath).files
         If InStr(1, f.name, "toast_", vbTextCompare) > 0 Or _
            InStr(1, f.name, "ShowToast_", vbTextCompare) > 0 Or _
            InStr(1, f.name, "callback_", vbTextCompare) > 0 Then

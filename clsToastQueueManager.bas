@@ -183,7 +183,7 @@ Public Sub Enqueue(ByVal toast As clsToastNotification, _
     
     Exit Sub
 ErrorHandler:
-    Debug.Print "[QueueManager] Enqueue error: " & Err.description
+    Debug.Print "[QueueManager] Enqueue error: " & Err.Description
 End Sub
 
 ' Process queue and show toasts

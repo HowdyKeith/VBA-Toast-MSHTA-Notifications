@@ -12,8 +12,8 @@ Option Explicit
     Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 #End If
 
-Private Function TempPath() As String
-    TempPath = Environ$("TEMP")
+Private Function tempPath() As String
+    tempPath = Environ$("TEMP")
 End Function
 
 Private Function EscapeJson(ByVal s As String) As String
@@ -45,7 +45,7 @@ Public Function ShowToastPowerShell( _
     
     On Error GoTo ErrorHandler
     
-    Dim tmp As String: tmp = TempPath()
+    Dim tmp As String: tmp = tempPath()
     Dim requestFile As String: requestFile = tmp & "\ToastRequest.json"
     Dim lockFile As String: lockFile = tmp & "\ToastRequest.lock"
     Dim responseFile As String: responseFile = tmp & "\ToastResponse.txt"
@@ -116,7 +116,7 @@ Public Function ShowToastPowerShell( _
             On Error Resume Next
             shell.Run "wscript """ & vbsFile & """", 0, False
             If Err.Number <> 0 Then
-                Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch VBS - " & Err.description
+                Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch VBS - " & Err.Description
                 ShowToastPowerShell = False
                 Exit Function
             End If
@@ -139,7 +139,7 @@ Public Function ShowToastPowerShell( _
             On Error Resume Next
             shell.Run cmd, 0, False
             If Err.Number <> 0 Then
-                Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch PowerShell - " & Err.description
+                Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch PowerShell - " & Err.Description
                 ShowToastPowerShell = False
                 Exit Function
             End If
@@ -185,7 +185,7 @@ Public Function ShowToastPowerShell( _
     Exit Function
 
 ErrorHandler:
-    Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: " & Err.description
+    Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: " & Err.Description
     ShowToastPowerShell = False
 End Function
 
@@ -423,7 +423,7 @@ End Function
 Public Sub ProgressToastDemo()
     Dim fso As Object: Set fso = CreateObject("Scripting.FileSystemObject")
     Dim shell As Object: Set shell = CreateObject("WScript.Shell")
-    Dim tmp As String: tmp = TempPath()
+    Dim tmp As String: tmp = tempPath()
     Dim ProgressFile As String: ProgressFile = tmp & "\ProgressRequest.json"
     Dim vbsFile As String: vbsFile = tmp & "\ProgressToast.vbs"
     Dim htaFile As String: htaFile = tmp & "\ProgressToast.hta"
@@ -467,7 +467,7 @@ Public Sub ProgressToastDemo()
     On Error Resume Next
     shell.Run "wscript """ & vbsFile & """", 0, False
     If Err.Number <> 0 Then
-        Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch VBS - " & Err.description
+        Debug.Print "[" & Format(Now, "hh:nn:ss") & "] ERROR: Failed to launch VBS - " & Err.Description
         Exit Sub
     End If
     On Error GoTo 0
@@ -504,7 +504,7 @@ End Sub
 Private Function PowershellListenerRunning() As Boolean
     On Error Resume Next
     Dim fso As Object: Set fso = CreateObject("Scripting.FileSystemObject")
-    Dim tmp As String: tmp = TempPath()
+    Dim tmp As String: tmp = tempPath()
     Dim sentinel As String: sentinel = tmp & "\ToastLastProcessed.txt"
     
     If fso.FileExists(sentinel) Then
@@ -558,7 +558,7 @@ Public Sub TestNotificationsPS()
         
         If choice = "" Or choice = "0" Then Exit Sub
         
-        Select Case Val(choice)
+        Select Case val(choice)
             Case 1
                 If ShowToastPowerShell("Info Toast", "This is a simple info toast.", 3, "INFO", , , "BEEP", , , , , "BR") Then
                     Debug.Print "? Info toast sent"
@@ -654,7 +654,7 @@ End Sub
 Private Sub CleanupTempFiles()
     On Error Resume Next
     Dim fso As Object: Set fso = CreateObject("Scripting.FileSystemObject")
-    Dim tmp As String: tmp = TempPath()
+    Dim tmp As String: tmp = tempPath()
     Dim files As Variant
     files = Array("ToastRequest.json", "ToastRequest.lock", "ToastResponse.txt", "ToastLastProcessed.txt", "ProgressRequest.json", "ProgressToast.vbs", "ProgressToast.hta", "SingleUseToast.ps1")
     

@@ -79,7 +79,7 @@ Public Sub Log(ByVal msg As String, ByVal Level As String, Optional ByVal showIn
     Exit Sub
 
 ErrorHandler:
-    Debug.Print "[Logs] Error in Log: " & Err.description & " (Line: " & Erl & ")"
+    Debug.Print "[Logs] Error in Log: " & Err.Description & " (Line: " & Erl & ")"
     On Error Resume Next
     Close #f
 End Sub
@@ -121,7 +121,7 @@ Public Sub DebugLog(ByVal msg As String, Optional ByVal showInStatusBar As Boole
     Exit Sub
 
 ErrorHandler:
-    Debug.Print "[Logs] Error in DebugLog: " & Err.description & " (Line: " & Erl & ")"
+    Debug.Print "[Logs] Error in DebugLog: " & Err.Description & " (Line: " & Erl & ")"
     On Error Resume Next
     Close #f
 End Sub
@@ -161,7 +161,7 @@ Public Sub LogStatus(ByVal msg As String, Optional ByVal logFolder As String = "
     Exit Sub
 
 ErrorHandler:
-    Debug.Print "[Logs] Error in LogStatus: " & Err.description & " (Line: " & Erl & ")"
+    Debug.Print "[Logs] Error in LogStatus: " & Err.Description & " (Line: " & Erl & ")"
     On Error Resume Next
     Close #f
 End Sub
@@ -172,7 +172,7 @@ Private Sub ClearStatusBar()
 10  Application.StatusBar = False
     Exit Sub
 ErrorHandler:
-    Debug.Print "[Logs] Error in ClearStatusBar: " & Err.description & " (Line: " & Erl & ")"
+    Debug.Print "[Logs] Error in ClearStatusBar: " & Err.Description & " (Line: " & Erl & ")"
 End Sub
 
 ' --- Schedule Status Bar Clear ---
@@ -182,7 +182,7 @@ Private Sub ScheduleStatusClear()
 20  Application.OnTime m_nextStatusClear, "Logs.ClearStatusBar"
     Exit Sub
 ErrorHandler:
-    Debug.Print "[Logs] Error in ScheduleStatusClear: " & Err.description & " (Line: " & Erl & ")"
+    Debug.Print "[Logs] Error in ScheduleStatusClear: " & Err.Description & " (Line: " & Erl & ")"
 End Sub
 
 

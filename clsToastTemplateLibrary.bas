@@ -174,7 +174,7 @@ Public Function CreateFromTemplate(ByVal TemplateName As String, _
     Exit Function
     
 ErrorHandler:
-    Debug.Print "[ToastTemplateLibrary] Error: " & Err.description
+    Debug.Print "[ToastTemplateLibrary] Error: " & Err.Description
     Set CreateFromTemplate = Nothing
 End Function
 

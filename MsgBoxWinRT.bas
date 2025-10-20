@@ -1,8 +1,8 @@
-Attribute VB_Name = "MsgBoxToastAPI"
+Attribute VB_Name = "MsgBoxWinRT"
 '***************************************************************
-' Module: MsgBoxToastAPI
+' Module: MsgBoxWinRT
 ' Version: 7.0
-' Purpose: Display Excel/Office Toasts via Native Windows Toast API
+' Purpose: Display Excel/Office Toasts via WinRT Notifications
 ' Dependencies: clsToastNotification v7.1
 ' Features:
 '   - Queued & stacked toasts
@@ -10,6 +10,7 @@ Attribute VB_Name = "MsgBoxToastAPI"
 '   - Native sound alerts
 '   - Callback macro auto-invoker
 '   - Optional OnTime timer cleanup
+'   - Optional WinRT channel
 '***************************************************************
 Option Explicit
 
@@ -43,7 +44,7 @@ Private Sub DisplayNextToast()
     Dim currentToast As clsToastNotification
     Set currentToast = SharedQueue(1)
     
-    currentToast.Show "ps" ' Use native API via PowerShell as bridge
+    currentToast.Show "winrt"
     
     Dim waitSeconds As Long
     waitSeconds = currentToast.Duration

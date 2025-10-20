@@ -228,7 +228,7 @@ Public Sub MsgBoxUI_MainMenu()
 
     If choice = "" Or choice = "7" Then Exit Sub
 
-    Select Case Val(choice)
+    Select Case val(choice)
         Case 1
             Notify "Demo Notification", "This is a simple notification!"
         Case 2

@@ -279,12 +279,12 @@ Public Function GetErrorSummary() As String
 End Function
 
 ' Export history to CSV
-Public Function ExportToCSV(ByVal filePath As String) As Boolean
+Public Function ExportToCSV(ByVal FilePath As String) As Boolean
     On Error GoTo ErrorHandler
     
     Dim fso As Object, ts As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
-    Set ts = fso.CreateTextFile(filePath, True, True)
+    Set ts = fso.CreateTextFile(FilePath, True, True)
     
     ' Write header
     ts.WriteLine "Timestamp,Title,Message,Level,Position,Duration,DeliveryMode,DeliveryTime,WasShown,ErrorMessage,UserInteraction"
@@ -314,7 +314,7 @@ Public Function ExportToCSV(ByVal filePath As String) As Boolean
     Exit Function
     
 ErrorHandler:
-    Debug.Print "[ToastAnalytics] Export error: " & Err.description
+    Debug.Print "[ToastAnalytics] Export error: " & Err.Description
     ExportToCSV = False
 End Function
 
@@ -516,13 +516,13 @@ Private Sub WriteToLogFile(ByVal Index As Long)
     ts.Close
 End Sub
 
-Private Sub AppendToLogFile(ByVal Text As String)
+Private Sub AppendToLogFile(ByVal text As String)
     On Error Resume Next
     
     Dim fso As Object, ts As Object
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set ts = fso.OpenTextFile(m_LogFilePath, 8, True, True)
-    ts.WriteLine Text
+    ts.WriteLine text
     ts.Close
 End Sub
 
